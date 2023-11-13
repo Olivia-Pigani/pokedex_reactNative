@@ -8,15 +8,23 @@ export const fetchPokemons = createAsyncThunk(
     try {
       const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=50');
       const data = await response.json();
-      const pokemonPromises = data.results.map(pokemon => fetch(pokemon.url).then(resp => resp.json()));
-      const pokemonDetails = await Promise.all(pokemonPromises);
-      return pokemonDetails; 
+      const pokemonDetailsPromises = data.results.map(async (pokemon) => {
+        const response = await fetch(pokemon.url);
+        const pokemonDetails = await response.json();
+        return {
+          name: pokemonDetails.name,
+          types: pokemonDetails.types.map((type) => type.type.name), 
+        };
+      });
+      const pokemonDetails = await Promise.all(pokemonDetailsPromises);
+      return pokemonDetails;
     } catch (error) {
       console.error(error);
       throw error;
     }
   }
 );
+
 
 
 // GET BY ID

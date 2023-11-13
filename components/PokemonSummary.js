@@ -3,12 +3,16 @@ import React from 'react'
 
 export default function PokemonSummary({item}) {
   return (
+    <Pressable>
     <View>
     
       <Text style={styles.toBlack}>{item.name}</Text>
-      <Text style={styles.toBlack}>fdfgdg</Text>
+      {item.types.map((type, index) => (
+          <Text key={index} style={styles.toBlack}>{type}</Text>
+        ))}   
    
   </View>
+  </Pressable>
   )
 }
 

@@ -19,7 +19,7 @@ dispatch(fetchPokemons())
 
   return (
     <View>
-      <FlatList numColumns={2}
+      <FlatList style={styles.toBlack} numColumns={2}
       data={pokemons}
       renderItem={({item})=>
       <PokemonSummary item={item}/>
@@ -28,4 +28,8 @@ dispatch(fetchPokemons())
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  toBlack:{
+    color:"black"
+  }
+})

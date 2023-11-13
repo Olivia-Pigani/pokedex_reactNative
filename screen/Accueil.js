@@ -12,10 +12,15 @@ navigation.navigate("AllPokemons")
   return (
     <Pressable onPress={goToAllPokemons}>
       <View>
-        <Text>Pokémons</Text>
+        <Text style={styles.toBlack}>Pokémons</Text>
       </View>
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  toBlack:{
+    color:"black"
+  }
+})
+
