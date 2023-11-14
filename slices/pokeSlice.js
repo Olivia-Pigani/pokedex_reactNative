@@ -18,6 +18,12 @@ export const fetchPokemons = createAsyncThunk(
         const speciesDetails = await speciesResponse.json();
         const flavorTextEntry = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'en');
         const flavorText = flavorTextEntry ? flavorTextEntry.flavor_text.replace(/[\n\f]/g, ' ') : '';
+
+        const goToSpecies = await fetch(speciesDetails.evolution_chain.url)
+        const evolutionChainResponse = await goToSpecies.json()
+        
+
+
         return {
           id: pokemonDetails.id,
           name: pokemonDetails.name,
