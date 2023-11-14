@@ -6,9 +6,11 @@ export default function PokemonSummary({item, seeDetails}) {
   const isFlying = item.types.includes('flying');
   const isWater = item.types.includes('water');
   const isFire = item.types.includes('fire');
+  const isGround = item.types.includes('ground');
+  const isGrass = item.types.includes('grass');
 
   return (
-    <Pressable onPress={() => seeDetails}>
+    <Pressable onPress={seeDetails}>
       <View
         style={[
           styles.squareContainer,
@@ -16,6 +18,9 @@ export default function PokemonSummary({item, seeDetails}) {
           isFlying && styles.flyingBackground,
           isPoison && styles.poisonBackground,
           isWater && styles.waterBackground,
+          isGrass && styles.grassBackground,
+          isGround && styles.groundBackground
+
         ]}>
         <Image
           style={[styles.imageStyle, styles.toBlack]}
@@ -63,4 +68,10 @@ const styles = StyleSheet.create({
   waterBackground: {
     backgroundColor: 'blue',
   },
+  grassBackground:{
+    backgroundColor:"green"
+  },
+  groundBackground:{
+    backgroundColor:'brown'
+  }
 });
