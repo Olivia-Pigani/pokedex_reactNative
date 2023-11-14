@@ -27,7 +27,6 @@ export const fetchPokemons = createAsyncThunk(
           sprites: pokemonDetails.sprites,
           description: flavorText,
 
-          // faire un second fetch pour les détail : dans species > flavor_text_entries
         };
       });
       const pokemonDetails = await Promise.all(secondFetch);
