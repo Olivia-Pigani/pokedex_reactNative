@@ -23,7 +23,7 @@ export const fetchPokemons = createAsyncThunk(
         const evolutionChainResponse = await goToSpecies.json()
         
 const evolutions = evolutionChainResponse.chain.evolve_to  // à revoir pour le fetch final ( avoir les évolutions sprites) 
-const species = evolutionChainResponse.chain.species
+const species = evolutionChainResponse.chain.species  // prendre le name et avec ça, prendre le sprite en question que l'on a déjà.
 
         return {
           id: pokemonDetails.id,
