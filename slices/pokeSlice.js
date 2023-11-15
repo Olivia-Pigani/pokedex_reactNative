@@ -22,7 +22,8 @@ export const fetchPokemons = createAsyncThunk(
         const goToSpecies = await fetch(speciesDetails.evolution_chain.url)
         const evolutionChainResponse = await goToSpecies.json()
         
-
+const evolutions = evolutionChainResponse.chain.evolve_to  // à revoir pour le fetch final ( avoir les évolutions sprites) 
+const species = evolutionChainResponse.chain.species
 
         return {
           id: pokemonDetails.id,
