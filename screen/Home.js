@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 import React from 'react';
 
-export default function Accueil({navigation}) {
+export default function Home({navigation}) {
 
 const goToAllPokemons = () => {
 navigation.navigate("AllPokemons")

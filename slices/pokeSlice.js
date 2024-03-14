@@ -1,6 +1,30 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 
-// GET ALL => faire tout les fetch ici
+// GET ALL => do all fetches here
+
+async function fetchEvolutionDetails(evolutionChainUrl) {
+  const response = await fetch(evolutionChainUrl);
+  const evolutionChainDetails = await response.json();
+  let evolutions = [];
+  let currentStage = evolutionChainDetails.chain;
+
+  while (currentStage && currentStage.evolves_to.length > 0) {
+    const nextEvolution = currentStage.evolves_to[0]; 
+    const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${nextEvolution.species.name}`);
+    const pokemonDetails = await pokemonResponse.json();
+
+    evolutions.push({
+      name: nextEvolution.species.name,
+      sprite: pokemonDetails.sprites.front_default
+    });
+
+    currentStage = nextEvolution; 
+  }
+
+  return evolutions;
+}
+
+
 
 export const fetchPokemons = createAsyncThunk(
   'pokemons/fetchPokemons',
@@ -10,6 +34,7 @@ export const fetchPokemons = createAsyncThunk(
         'https://pokeapi.co/api/v2/pokemon?offset=0&limit=50',
       );
       const data = await response.json();
+
       const secondFetch = data.results.map(async pokemon => {
         const response = await fetch(pokemon.url);
         const pokemonDetails = await response.json();
@@ -19,11 +44,8 @@ export const fetchPokemons = createAsyncThunk(
         const flavorTextEntry = speciesDetails.flavor_text_entries.find(entry => entry.language.name === 'en');
         const flavorText = flavorTextEntry ? flavorTextEntry.flavor_text.replace(/[\n\f]/g, ' ') : '';
 
-        const goToSpecies = await fetch(speciesDetails.evolution_chain.url)
-        const evolutionChainResponse = await goToSpecies.json()
-        
-const evolutions = evolutionChainResponse.chain.evolve_to  // à revoir pour le fetch final ( avoir les évolutions sprites) 
-const species = evolutionChainResponse.chain.species  // prendre le name et avec ça, prendre le sprite en question que l'on a déjà.
+        const evolutions = await fetchEvolutionDetails(speciesDetails.evolution_chain.url);
+
 
         return {
           id: pokemonDetails.id,
@@ -31,9 +53,9 @@ const species = evolutionChainResponse.chain.species  // prendre le name et avec
           height: pokemonDetails.height,
           weight: pokemonDetails.weight,
           types: pokemonDetails.types.map(type => type.type.name),
-          sprites: pokemonDetails.sprites,
+          defaultImage: pokemonDetails.sprites.front_default,
           description: flavorText,
-
+          evolutions: evolutions
         };
       });
       const pokemonDetails = await Promise.all(secondFetch);
@@ -43,6 +65,7 @@ const species = evolutionChainResponse.chain.species  // prendre le name et avec
       throw error;
     }
   },
+
 );
 
 const pokeSlice = createSlice({
