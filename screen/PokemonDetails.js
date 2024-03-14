@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 30,
     fontSize: 25,
-  },  poisonBackground: {
+  }, 
+   poisonBackground: {
     backgroundColor: 'green',
   }
 });

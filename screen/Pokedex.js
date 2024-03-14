@@ -16,16 +16,18 @@ const Pokedex = () => {
     <FlatList
       data={pokedex}
       keyExtractor={(item) => item.toString()}
+      style={styles.listContainer}
       renderItem={({ item }) => {
         const pokemonDetails = getPokemonDetails(item);
         return (
-          <View>
-            <Text style={styles.toBlack}>{pokemonDetails.name}</Text>
+          <View style={styles.card}>
+            <Text style={styles.pokemonName}>{pokemonDetails.name}</Text>
             <Image
-            source={{ uri: pokemonDetails.defaultImage }}
-          />
-            <TouchableOpacity onPress={() => dispatch(releasePokemon(item))}>
-              <Text style={styles.toBlack}>Release</Text>
+  source={{ uri: pokemonDetails.defaultImage }}
+  style={styles.imageStyle} 
+/>
+            <TouchableOpacity style={styles.releaseButton}  onPress={() => dispatch(releasePokemon(item))}>
+              <Text>Release</Text>
             </TouchableOpacity>
           </View>
         );
@@ -42,7 +44,32 @@ const styles = StyleSheet.create({
     toBlack: {
         color: 'black',
         padding : 5
-      }
+      },imageStyle: {
+        width: 100, 
+        height: 100, 
+      },
+      listContainer: {
+        paddingHorizontal: 10,
+        paddingTop: 10,
+      },card: {
+        backgroundColor: '#f8f8f8',
+        marginBottom: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+        padding: 10,
+      },
+      releaseButton: {
+        backgroundColor: '#7851A9',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 20,
+      },
+      pokemonName: {
+        color: '#333',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
 
 
 })
