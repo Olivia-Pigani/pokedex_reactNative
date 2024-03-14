@@ -1,77 +1,89 @@
-import {Pressable, StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function PokemonSummary({item, seeDetails}) {
-  const isPoison = item.types.includes('poison');
-  const isFlying = item.types.includes('flying');
-  const isWater = item.types.includes('water');
-  const isFire = item.types.includes('fire');
-  const isGround = item.types.includes('ground');
-  const isGrass = item.types.includes('grass');
+const PokemonSummary = ({ pokemon, onPress }) => {
+
+  console.log(pokemon);
+
 
   return (
-    <Pressable onPress={seeDetails}>
-      <View
-        style={[
-          styles.squareContainer,
-          isFire && styles.fireBackground,
-          isFlying && styles.flyingBackground,
-          isPoison && styles.poisonBackground,
-          isWater && styles.waterBackground,
-          isGrass && styles.grassBackground,
-          isGround && styles.groundBackground
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <Image source={{ uri: pokemon.defaultImage }} style={styles.image} />
+      <Text style={styles.name}>{pokemon.name}</Text>
 
-        ]}>
-        <Image
-          style={[styles.imageStyle, styles.toBlack]}
-          source={{uri: item.sprites?.front_default}}
-        />
-        <Text style={styles.toBlack}>{item.name}</Text>
-
-        {item.types.map((type, index) => (
-          <Text key={index} style={styles.toBlack}>
-            {type}
-          </Text>
+      <View style={styles.typesContainer}>
+        {pokemon.types.map((type, index) => (
+          <View key={index} style={[styles.typeBadge, { backgroundColor: getRightColor(type) }]}>
+            <Text style={styles.typeText}>{type}</Text>
+          </View>
         ))}
       </View>
-    </Pressable>
+
+
+    </TouchableOpacity>
   );
-}
+};
+
+const getRightColor = (type) => {
+  switch (type) {
+    case 'fire': return '#F7786B';
+    case 'water': return '#77C4FE';
+    case 'grass': return '#4FC1A6';
+    case 'electric': return '#FFCE4B';
+    case 'psychic': return '#FA92B2';
+    case 'ice': return '#8BCEEB';
+    case 'dragon': return '#F16E57';
+    case 'dark': return '#707070';
+    case 'fairy': return '#FDB9E9';
+    case 'normal': return '#A0A29F';
+    case 'bug': return '#A8B820';
+    case 'poison': return '#A040A0';
+    case 'ground': return '#E0C068';
+    case 'flying': return '#A890F0';
+    case 'fighting': return '#C03028';
+    case 'rock': return '#B8A038';
+    case 'steel': return '#B8B8D0';
+    case 'ghost': return '#705898';
+    default: return '#A8A878';
+  }
+};
+
 
 const styles = StyleSheet.create({
-  toBlack: {
-    color: 'black',
-    textAlign: 'center',
-  },
-  squareContainer: {
-    backgroundColor: 'orange',
-    width: 180,
-    height: 180,
-    justifyContent: 'center',
+  container: {
+    flex: 1,
     margin: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
+    padding: 10,
   },
-  imageStyle: {
+  image: {
     width: 100,
     height: 100,
-    alignSelf: 'center',
   },
-  poisonBackground: {
-    backgroundColor: 'green',
+  name: {
+    marginTop: 8,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
   },
-  flyingBackground: {
-    backgroundColor: 'cyan',
+  typesContainer: {
+    flexDirection: 'row',
+    marginTop: 4,
   },
-  fireBackground: {
-    backgroundColor: 'red',
+  typeBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+    marginHorizontal: 2,
+    backgroundColor: '#68A090',
   },
-  waterBackground: {
-    backgroundColor: 'blue',
-  },
-  grassBackground:{
-    backgroundColor:"green"
-  },
-  groundBackground:{
-    backgroundColor:'brown'
+  typeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
   }
 });
+
+export default PokemonSummary;

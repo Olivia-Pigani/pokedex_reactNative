@@ -10,17 +10,29 @@ navigation.navigate("AllPokemons")
 
 
   return (
-    <Pressable onPress={goToAllPokemons}>
-      <View>
-        <Text style={styles.toBlack}>Pokémons</Text>
-      </View>
-    </Pressable>
+<View style={styles.container}>
+      <Pressable onPress={goToAllPokemons} style={styles.button}>
+        <Text style={styles.buttonText}>Catch them all !</Text>
+      </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  toBlack:{
-    color:"black"
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5fcff',
+  },
+  button: {
+    backgroundColor: '#007bff',
+    padding: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   }
 })
 

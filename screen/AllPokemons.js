@@ -1,48 +1,41 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchPokemons} from '../slices/pokeSlice';
-import PokemonSummary from '../components/PokemonSummary.js';
+// Dans AllPokemons.js
+import React, { useEffect } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPokemons } from '../slices/pokeSlice';
+import PokemonSummary from '../components/PokemonSummary';
 
-export default function AllPokemons({navigation, route}) {
+export default function AllPokemons({ navigation }) {
   const pokemons = useSelector(state => state.pokemons.pokemons);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchPokemons());
-  }, []);
+  }, [dispatch]);
 
   const seeDetails = (pokemonId) => {
-    navigation.navigate('PokemonDetails', {pokemonId});
+    navigation.navigate('PokemonDetails', { pokemonId });
   };
+  
 
   return (
-    <View style={styles.allPokemonsSquares}>
+    <View style={styles.container}>
       <FlatList
-        style={styles.toBlack}
-        numColumns={2}
         data={pokemons}
-        renderItem={({item}) => (
+        numColumns={2}
+        renderItem={({ item }) => (
+
           <PokemonSummary
-          
-            item={item}
-            seeDetails={() => seeDetails(item.id)}
-            pokemonId={item.id}
+            pokemon={item}
+            onPress={() => seeDetails(item.id)}
           />
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  toBlack: {
-    color: 'black',
-  },
-  allPokemonsSquares:{
-    alignItems:"center",
-    
 
-  }
 });
