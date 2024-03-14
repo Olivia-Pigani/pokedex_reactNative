@@ -4,9 +4,13 @@ import React from 'react';
 export default function Home({navigation}) {
 
 const goToAllPokemons = () => {
-navigation.navigate("AllPokemons")
+navigation.navigate("AllPokemons");
+};
 
-}
+const goToPokedex = () => {
+  navigation.navigate("Pokedex");
+
+};
 
 
   return (
@@ -14,7 +18,10 @@ navigation.navigate("AllPokemons")
       <Pressable onPress={goToAllPokemons} style={styles.button}>
         <Text style={styles.buttonText}>Catch them all !</Text>
       </Pressable>
-    </View>
+      <Pressable onPress={goToPokedex} style={styles.button}>
+        <Text style={styles.buttonText}>Pokedex</Text>
+      </Pressable>
+</View>
   );
 }
 

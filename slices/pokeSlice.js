@@ -73,6 +73,7 @@ const pokeSlice = createSlice({
   initialState: {
     pokemons: [],
     selectedPokemon: null,
+    pokedex :[],
   },
   reducers: {
     setPokemons: (state, action) => {
@@ -84,6 +85,16 @@ const pokeSlice = createSlice({
         pokemon => pokemon.id === selectedId,
       );
     },
+    catchPokemon: (state, action) => {
+      const pokemonId = action.payload;
+      if (!state.pokedex.includes(pokemonId)) {
+        state.pokedex.push(pokemonId);
+      }
+    },
+    releasePokemon: (state, action) => {
+      const pokemonId = action.payload;
+      state.pokedex = state.pokedex.filter(id => id !== pokemonId);
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchPokemons.fulfilled, (state, action) => {
@@ -91,5 +102,5 @@ const pokeSlice = createSlice({
     });
   },
 });
-export const {setPokemons, setSelectedPokemon} = pokeSlice.actions;
+export const {setPokemons, setSelectedPokemon, catchPokemon, releasePokemon} = pokeSlice.actions;
 export default pokeSlice.reducer;

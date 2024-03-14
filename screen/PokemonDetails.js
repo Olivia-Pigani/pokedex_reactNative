@@ -1,13 +1,30 @@
-import {ScrollView,StyleSheet, Text, View, Image} from 'react-native';
+import {ScrollView,StyleSheet, Text, View, Image, Button} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setSelectedPokemon} from '../slices/pokeSlice';
+import {setSelectedPokemon, catchPokemon,releasePokemon} from '../slices/pokeSlice';
 import EvolutionChain from '../components/EvolutionChain.js';
+
+
+
+
 
 export default function PokemonDetails({route}) {
   const {pokemonId} = route.params;
   const dispatch = useDispatch();
   const selectedPokemon = useSelector(state => state.pokemons.selectedPokemon);
+  const pokedex = useSelector(state => state.pokemons.pokedex);
+  const isCaught = pokedex.includes(pokemonId);
+
+
+
+  const handleCatchRelease = () => {
+    if (isCaught) {
+      dispatch(releasePokemon(pokemonId));
+    } else {
+      dispatch(catchPokemon(pokemonId));
+    }
+  };
+
 
   useEffect(() => {
     dispatch(setSelectedPokemon(pokemonId));
@@ -44,9 +61,13 @@ export default function PokemonDetails({route}) {
         </View>
 
         <EvolutionChain evolutions={selectedPokemon.evolutions} />
+        <Button 
+  title={isCaught ? "release" : "catch"} 
+  onPress={handleCatchRelease}
+/>
       </>
     ) : (
-      <Text style={styles.toBlack}>Chargement...</Text>
+      <Text style={styles.toBlack}>Downloading...</Text>
     )}
   </ScrollView>
   );
