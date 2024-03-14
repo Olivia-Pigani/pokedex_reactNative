@@ -1,15 +1,15 @@
-How to start this project ? 
+# How to start this project ? 
 
-Java 11
+This React Native Pokedex application need some set up before launching, please, ensure to 
 
- https://developer.android.com/studio
+1. install Java 11 to compile and run the app.
 
-add variable d'env : 
+2. install  Node.js ( LTS version ) for package management.
 
-- ANDROID_HOME
-- JAVA_HOME 
+3. install et configurate Android Studio ( https://developer.android.com/studio ) to emulate the app.
 
-put install.png
+#### then you can run those commands in the terminal : 
 
+1. "npm i" to download all node modules.
 
-then : npx react-native run-android
+2. "npx react-native run-android" to start the emulation.
