@@ -1,13 +1,10 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {ScrollView,StyleSheet, Text, View, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setSelectedPokemon} from '../slices/pokeSlice';
+import EvolutionChain from '../components/EvolutionChain.js';
 
-export default function PokemonDetails({route, navigation}) {
-
-
-
-
+export default function PokemonDetails({route}) {
   const {pokemonId} = route.params;
   const dispatch = useDispatch();
   const selectedPokemon = useSelector(state => state.pokemons.selectedPokemon);
@@ -17,78 +14,81 @@ export default function PokemonDetails({route, navigation}) {
   }, [pokemonId, dispatch]);
 
   return (
-    <View>
-      {selectedPokemon ? (
-        <>
-          <View
-            style={[
-              styles.toBlack,
-              styles.topPartContainer,
-            ]}>
-            <Text style={styles.toBlack}>{selectedPokemon.name}</Text>
-            <Image
-              style={[styles.imageStyle, styles.toBlack]}
-              source={{uri: selectedPokemon.sprites?.front_default}}
-            />
-          </View>
+    <ScrollView>
+    {selectedPokemon ? (
+      <>
+        <View style={[styles.topPartContainer]}>
+          <Text style={styles.pokemonTitle}>{selectedPokemon.name}</Text>
+          <Image
+            style={styles.imageStyle}
+            source={{ uri: selectedPokemon.defaultImage }}
+          />
+        </View>
 
+        <View>
+          <Text style={styles.detailTitle}>Détails</Text>
+          <Text style={styles.toBlack}>
+            {selectedPokemon.description}
+          </Text>
+        </View>
+
+        <View style={styles.heightAndWeight}>
+          <View >
+            <Text style={styles.toBlack}>Height</Text>
+            <Text style={styles.toBlack}>{selectedPokemon.height}</Text>
+          </View>
           <View>
-            <Text style={styles.detailTitle}>Détails</Text>
-            <Text style={[styles.toBlack, styles.detailContent]}>
-              {selectedPokemon.description}
-            </Text>
+            <Text style={styles.toBlack}>Weight</Text>
+            <Text style={styles.toBlack}>{selectedPokemon.weight}</Text>
           </View>
+        </View>
 
-          <View style={styles.heightAndWeight}>
-            <View>
-              <Text style={styles.detailTitle}>Height</Text>
-              <Text style={styles.toBlack}>{selectedPokemon.height}</Text>
-            </View>
-            <View>
-              <Text style={styles.detailTitle}>Weight</Text>
-              <Text style={styles.toBlack}>{selectedPokemon.weight}</Text>
-            </View>
-          </View>
-
-          <Text style={styles.chaineEvolutionTitle}>Chaîne d'évolutions</Text>
-        </>
-      ) : (
-        <Text>en charge ...</Text>
-      )}
-    </View>
+        <EvolutionChain evolutions={selectedPokemon.evolutions} />
+      </>
+    ) : (
+      <Text style={styles.toBlack}>Chargement...</Text>
+    )}
+  </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  pokemonTitle:{
+    fontSize:35,
+    color:'white',
+    backgroundColor:'#7851A9',
+    marginTop : 25,
+    paddingHorizontal : 10,
+    borderRadius: 10,
+    
+  },
   toBlack: {
     color: 'black',
-    textAlign: 'center',
+    padding : 5
   },
   imageStyle: {
-    width: 250,
+    width: 200,
     height: 150,
+    marginTop : 25
   },
   topPartContainer: {
-    backgroundColor: 'yellow',
     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
   detailTitle: {
-    fontSize: 25,
+    fontSize: 20,
     marginLeft: 10,
-  },
-  detailContent: {
-    justifyContent: 'flex-start',
-    width: 100,
-    marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-    textAlign: 'left',
+    margin : 25,
+    color:'black',
+    fontWeight: 'bold'
   },
   heightAndWeight: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    color:'black',
+    margin: 10,
+
   },
   chaineEvolutionTitle: {
     marginLeft: 10,

@@ -3,8 +3,6 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 const PokemonSummary = ({ pokemon, onPress }) => {
 
-  console.log(pokemon);
-
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
